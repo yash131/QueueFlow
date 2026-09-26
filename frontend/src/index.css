@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --qf-yellow: #FACC15;
+  --qf-yellow-bright: #FDE047;
+  --qf-yellow-soft: #FEF9C3;
+  --qf-yellow-dark: #EAB308;
+  --qf-bg: #FAFAFA;
+  --qf-card: #FFFFFF;
+  --qf-text: #111827;
+  --qf-text-muted: #6B7280;
+  --qf-border: #E5E7EB;
+  --qf-sidebar: #0F172A;
+  --qf-sidebar-hover: #1E293B;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--qf-bg);
+  color: var(--qf-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+.font-mono { font-family: 'JetBrains Mono', 'Menlo', monospace; }
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 220 26% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 26% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 26% 14%;
+    --primary: 45 95% 53%;
+    --primary-foreground: 220 26% 14%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 26% 14%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    --accent: 48 96% 89%;
+    --accent-foreground: 220 26% 14%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 45 95% 53%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+  h1, h2, h3, h4, h5 { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* Yellow glow for primary CTAs */
+.btn-yellow-glow {
+  box-shadow: 0 4px 14px 0 rgba(250, 204, 21, 0.35);
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+.btn-yellow-glow:hover {
+  box-shadow: 0 6px 22px 0 rgba(250, 204, 21, 0.55);
+  transform: translateY(-1px);
+}
+.btn-yellow-glow:active { transform: translateY(0); }
+
+/* Subtle grid pattern for hero */
+.qf-grid-pattern {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Running job pulse */
+@keyframes qf-pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.25); }
+}
+.qf-pulse-dot { animation: qf-pulse-dot 1.4s ease-in-out infinite; }
+
+/* Live badge pulse ring */
+@keyframes qf-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+.qf-pulse-ring { animation: qf-pulse-ring 1.8s ease-out infinite; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

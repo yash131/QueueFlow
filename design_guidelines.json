@@ -1,0 +1,146 @@
+{
+  "product_info": {
+    "name": "QueueFlow",
+    "tagline": "Smart job scheduling. Simple task management.",
+    "app_type": "saas_app",
+    "theme": "Yellow (#FACC15) + White + Dark Neutral Palette with High-Contrast Precision"
+  },
+  "typography": {
+    "headings": {
+      "family": "Plus Jakarta Sans, sans-serif",
+      "google_font_url": "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap",
+      "style": "Font weight 700/800, tracking-tight, sharp hierarchy"
+    },
+    "body": {
+      "family": "Inter, sans-serif",
+      "style": "Font weight 400/500, crisp readability"
+    },
+    "mono": {
+      "family": "JetBrains Mono, monospace",
+      "style": "For Job IDs, execution times, payload JSON, logs, cron syntax, worker process statistics"
+    },
+    "hierarchy": {
+      "h1_hero": "text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-900 dark:text-white",
+      "h2_section": "text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-slate-100",
+      "h3_card_title": "text-lg sm:text-xl font-semibold text-neutral-900 dark:text-slate-100",
+      "subtitle": "text-sm sm:text-base text-neutral-500 dark:text-slate-400 font-normal",
+      "label_badge": "text-xs font-semibold uppercase tracking-wider",
+      "code_snippet": "font-mono text-xs sm:text-sm bg-neutral-900 text-yellow-300 p-2.5 rounded-md"
+    }
+  },
+  "colors": {
+    "primary_yellow": "#FACC15",
+    "bright_yellow": "#FDE047",
+    "soft_yellow": "#FEF9C3",
+    "dark_yellow": "#EAB308",
+    "accent_yellow_glow": "rgba(250, 204, 21, 0.25)",
+    "background_light": "#FAFAFA",
+    "card_light": "#FFFFFF",
+    "text_primary": "#111827",
+    "text_secondary": "#6B7280",
+    "dark_neutral_sidebar": "#0F172A",
+    "dark_neutral_card": "#1E293B",
+    "border_light": "#E5E7EB",
+    "border_dark": "#334155",
+    "statuses": {
+      "pending": {
+        "bg": "bg-amber-50 dark:bg-amber-950/40",
+        "text": "text-amber-700 dark:text-amber-300",
+        "border": "border-amber-300 dark:border-amber-700/60",
+        "badge_dot": "bg-amber-400 animate-pulse",
+        "hex": "#F59E0B"
+      },
+      "running": {
+        "bg": "bg-sky-50 dark:bg-sky-950/40",
+        "text": "text-sky-700 dark:text-sky-300",
+        "border": "border-sky-300 dark:border-sky-700/60",
+        "badge_dot": "bg-sky-400 animate-spin",
+        "hex": "#0284C7"
+      },
+      "completed": {
+        "bg": "bg-emerald-50 dark:bg-emerald-950/40",
+        "text": "text-emerald-700 dark:text-emerald-300",
+        "border": "border-emerald-300 dark:border-emerald-700/60",
+        "badge_dot": "bg-emerald-500",
+        "hex": "#22C55E"
+      },
+      "failed": {
+        "bg": "bg-rose-50 dark:bg-rose-950/40",
+        "text": "text-rose-700 dark:text-rose-300",
+        "border": "border-rose-300 dark:border-rose-700/60",
+        "badge_dot": "bg-rose-500",
+        "hex": "#EF4444"
+      },
+      "cancelled": {
+        "bg": "bg-slate-100 dark:bg-slate-800",
+        "text": "text-slate-600 dark:text-slate-400",
+        "border": "border-slate-300 dark:border-slate-700",
+        "badge_dot": "bg-slate-400",
+        "hex": "#64748B"
+      }
+    },
+    "priorities": {
+      "high": "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300 border border-red-200 dark:border-red-800",
+      "medium": "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-200 dark:border-amber-800",
+      "low": "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
+    }
+  },
+  "layout_and_structure": {
+    "app_shell": {
+      "sidebar": "Dark slate background (#0F172A) with primary yellow (#FACC15) active item highlights, subtle yellow accent indicator bar, compact workspace user details, and collapsibility.",
+      "header": "Clean white (#FFFFFF) or semi-transparent backdrop blur (bg-white/80 dark:bg-slate-900/80) with live queue health indicator dot, search trigger, worker pool active status, dark/light theme toggle, and notification drawer.",
+      "main_container": "bg-[#FAFAFA] dark:bg-slate-950 p-6 md:p-8 min-h-screen space-y-8 max-w-7xl mx-auto"
+    },
+    "stats_grid": "Grid layout (grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6). Cards feature crisp 1px borders, status-colored micro badges, progress indicators, and interactive hover states.",
+    "job_board": {
+      "type": "Kanban view (columns for Pending, Running, Completed, Failed, Cancelled) OR Grouped/Filtered Cards view with tabbed toggle",
+      "column_design": "bg-slate-100/70 dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200/80 dark:border-slate-800 space-y-3 min-h-[500px]",
+      "job_card": "bg-white dark:bg-slate-800/90 rounded-lg p-4 border border-slate-200/90 dark:border-slate-700/80 shadow-sm hover:shadow-md hover:border-yellow-400 transition-all cursor-pointer space-y-3"
+    },
+    "admin_audit_panel": {
+      "design": "Recent Activity feed with time-stamped log items, user avatar badges, action icons (Job Enqueued, Worker Scaled, Job Cancelled, Priority Changed), and expandable details."
+    }
+  },
+  "motion_and_animations": {
+    "engine": "Framer Motion (framer-motion)",
+    "page_transitions": {
+      "initial": { "opacity": 0, "y": 8 },
+      "animate": { "opacity": 1, "y": 0 },
+      "exit": { "opacity": 0, "y": -6 },
+      "transition": { "duration": 0.25, "ease": "easeInOut" }
+    },
+    "job_card_stagger": "Stagger children animation for job list rendering (staggerChildren: 0.05)",
+    "modal_animation": "Scale up and fade backdrop blur overlay with smooth spring transition",
+    "live_polling_pulse": "Subtle radar pulse on queue health badge and top right update ticker every 2-3s"
+  },
+  "image_urls": {
+    "login_hero_bg": "https://images.unsplash.com/photo-1763926444396-76d4132182e8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMHllbGxvdyUyMGRhcmslMjBtb2Rlcm4lMjB0ZWNoJTIwd29ya2Zsb3clMjBwYXR0ZXJufGVufDB8fHx8MTc5MDQyOTQ2N3ww&ixlib=rb-4.1.0&q=85",
+    "login_tech_pattern": "https://images.unsplash.com/photo-1764303017963-e2a45941c94f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMHllbGxvdyUyMGRhcmslMjBtb2Rlcm4lMjB0ZWNoJTIwd29ya2Zsb3clMjBwYXR0ZXJufGVufDB8fHx8MTc5MDQyOTQ2N3ww&ixlib=rb-4.1.0&q=85"
+  },
+  "component_guidelines": {
+    "buttons": "Primary button in #FACC15 with black text (#111827), font-semibold, rounded-lg, hover:bg-yellow-400 shadow-sm transition-all focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2",
+    "badges": "Pill-shaped or slightly rounded rectangular badges with low-opacity background and solid text matching the status",
+    "modals": "Shadcn Dialog wrapped with clean backdrop-blur-sm, white card body, explicit data-testid, and job execution logs viewer",
+    "toasts": "Sonner toast system styled with custom yellow accents and icon state indicators",
+    "testing": "All key interactive elements MUST have data-testid attributes in kebab-case format (e.g. data-testid='submit-job-button', data-testid='login-form-submit-button', data-testid='worker-concurrency-slider')"
+  },
+  "instructions_to_main_agent": [
+    "Ensure the split-screen login page features a vibrant, animated task processing visualization on the left with QueueFlow branding and the abstract yellow-dark tech background image, and a slick, high-contrast form on the right.",
+    "Implement real-time job queue polling every 2.5s with a subtle visual pulse indicator in the header bar.",
+    "Make sure user and admin views both provide quick job submission forms (Image Resize, Send Email, Data Export, PDF Generation) with priority selectors (High, Medium, Low).",
+    "In Admin Dashboard, render the live statistics cards, Recent Activity audit log feed, job filtering table, search input, worker concurrency slider (1-20), and user management table.",
+    "Provide Kanban view and List view toggles for the Job Board with clear visual status columns.",
+    "Apply data-testid to every button, input, tab, card, and modal trigger for reliable automation tests."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid this: make creative, distinctive frontends that surprise and delight.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition (e.g. transition: all). Always specify explicit transitions for interactive properties like background-color, border-color, shadow, transform.",
+    "You MUST NOT center align the app container (no text-align: center on root container).",
+    "Always use modern button styles with pill/rounded shapes, micro-interactions, and high contrast active/hover states.",
+    "NEVER use AI assistant emoji characters like 🤖🧠💭💡🔮🎯 for icons. Use Lucide or Phosphor icons instead.",
+    "All interactive elements MUST include data-testid attribute in kebab-case format."
+  ]
+}
