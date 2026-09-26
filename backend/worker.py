@@ -10,10 +10,12 @@ Design:
 import asyncio
 import logging
 import random
+import time
 from datetime import datetime, timezone
 from typing import Optional
 
 from db import get_db
+from job_handlers import run_handler
 
 logger = logging.getLogger("queueflow.worker")
 
@@ -122,11 +124,27 @@ class WorkerManager:
     async def _process_job(self, job: dict) -> None:
         db = get_db()
         job_id = job["id"]
-        delay = random.uniform(5, 15)  # seconds, per spec
+        total_delay = random.uniform(5, 15)  # keeps demo pacing per spec
+        start_mono = time.monotonic()
+
+        # Run the real handler in a worker thread so Pillow/reportlab don't block the loop.
+        handler_error: Optional[str] = None
+        result_text: Optional[str] = None
         try:
-            await asyncio.sleep(delay)
+            result_text = await asyncio.to_thread(
+                run_handler, job["type"], job.get("description", ""), job.get("owner_name", "User")
+            )
         except asyncio.CancelledError:
-            # Job was cancelled while running (e.g. admin cancel or shutdown)
+            return
+        except Exception as e:  # pragma: no cover
+            handler_error = f"Handler error: {str(e)[:140]}"
+
+        # Sleep the remainder so processing takes ~5-15s total (preserves demo pacing)
+        elapsed = time.monotonic() - start_mono
+        remaining = max(0, total_delay - elapsed)
+        try:
+            await asyncio.sleep(remaining)
+        except asyncio.CancelledError:
             return
 
         # Re-check status: if it was cancelled during processing, don't overwrite
@@ -135,40 +153,42 @@ class WorkerManager:
             return
 
         completed_at = datetime.now(timezone.utc).isoformat()
-        if random.random() < 0.9:
-            result_text = _success_result(job["type"])
+        # If handler crashed → mark failed. Else keep the 90/10 simulated success/fail per spec.
+        if handler_error:
             await db.jobs.update_one(
                 {"id": job_id, "status": "running"},
-                {
-                    "$set": {
-                        "status": "done",
-                        "completed_at": completed_at,
-                        "result": result_text,
-                        "error_message": None,
-                    }
-                },
+                {"$set": {
+                    "status": "failed",
+                    "completed_at": completed_at,
+                    "error_message": handler_error,
+                    "result": None,
+                }},
+            )
+        elif random.random() < 0.9:
+            await db.jobs.update_one(
+                {"id": job_id, "status": "running"},
+                {"$set": {
+                    "status": "done",
+                    "completed_at": completed_at,
+                    "result": result_text,
+                    "error_message": None,
+                }},
             )
         else:
             await db.jobs.update_one(
                 {"id": job_id, "status": "running"},
-                {
-                    "$set": {
-                        "status": "failed",
-                        "completed_at": completed_at,
-                        "error_message": "Simulated processing failure: temporary worker error.",
-                        "result": None,
-                    }
-                },
+                {"$set": {
+                    "status": "failed",
+                    "completed_at": completed_at,
+                    "error_message": "Simulated processing failure: temporary worker error.",
+                    "result": None,
+                }},
             )
 
 
 def _success_result(job_type: str) -> str:
-    return {
-        "image_resize": "Image resize completed successfully.",
-        "send_email": "Email delivered successfully to recipient.",
-        "data_export": "Data export finished and file is ready.",
-        "pdf_generation": "PDF generated and stored successfully.",
-    }.get(job_type, "Job completed successfully.")
+    """Legacy fallback (kept for compatibility)."""
+    return f"{job_type} completed successfully."
 
 
 # Global singleton
