@@ -82,22 +82,31 @@ class WorkerManager:
                 await asyncio.sleep(self._poll_interval)
 
     async def _claim_next_pending_job(self, db) -> Optional[dict]:
-        """Atomically pick highest-priority oldest pending job and mark running."""
-        # Sort by priority (high first) then created_at ascending.
-        # We fetch top candidates then attempt atomic transition to running.
-        cursor = db.jobs.find(
-            {"status": "pending"},
-            {"_id": 0},
-        ).limit(20)
-        candidates = await cursor.to_list(length=20)
+        """Atomically pick highest-priority oldest pending job and mark running.
+
+        Uses a mapped `priority_rank` field for correct server-side sort. Each new
+        job stores its rank; we backfill legacy docs on the fly.
+        """
+        # Backfill priority_rank for any pending docs that lack it (one-time per doc)
+        await db.jobs.update_many(
+            {"status": "pending", "priority_rank": {"$exists": False}, "priority": "high"},
+            {"$set": {"priority_rank": 3}},
+        )
+        await db.jobs.update_many(
+            {"status": "pending", "priority_rank": {"$exists": False}, "priority": "medium"},
+            {"$set": {"priority_rank": 2}},
+        )
+        await db.jobs.update_many(
+            {"status": "pending", "priority_rank": {"$exists": False}, "priority": "low"},
+            {"$set": {"priority_rank": 1}},
+        )
+
+        cursor = db.jobs.find({"status": "pending"}, {"_id": 0}).sort(
+            [("priority_rank", -1), ("created_at", 1)]
+        ).limit(5)
+        candidates = await cursor.to_list(length=5)
         if not candidates:
             return None
-        candidates.sort(
-            key=lambda j: (
-                -PRIORITY_RANK.get(j.get("priority", "medium"), 2),
-                j.get("created_at") or datetime.now(timezone.utc).isoformat(),
-            )
-        )
         for cand in candidates:
             started_at = datetime.now(timezone.utc).isoformat()
             result = await db.jobs.update_one(

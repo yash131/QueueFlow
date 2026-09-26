@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import StatusBadge, { PriorityBadge } from "@/components/StatusBadge";
 import { TYPE_META } from "@/components/JobCard";
 import { Copy, User, Clock, PlayCircle, CheckCircle2, AlertTriangle } from "lucide-react";
@@ -47,6 +47,9 @@ export default function JobModal({ job, open, onOpenChange }) {
             {meta.label}
             <StatusBadge status={job.status} />
           </DialogTitle>
+          <DialogDescription className="text-xs text-slate-500">
+            Full job details, timing and result.
+          </DialogDescription>
         </DialogHeader>
 
         <div className="mt-2">

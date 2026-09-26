@@ -36,5 +36,5 @@ async def ensure_indexes():
     await db.jobs.create_index("priority")
     await db.jobs.create_index("created_at")
     # Compound index for the pending-job scheduler query
-    await db.jobs.create_index([("status", 1), ("priority", -1), ("created_at", 1)])
+    await db.jobs.create_index([("status", 1), ("priority_rank", -1), ("created_at", 1)])
     await db.audit_logs.create_index("timestamp")

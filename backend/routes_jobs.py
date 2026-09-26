@@ -35,6 +35,7 @@ async def create_job(body: JobCreate, current_user: dict = Depends(get_current_u
     )
     doc = job.model_dump()
     doc["created_at"] = doc["created_at"].isoformat()
+    doc["priority_rank"] = {"high": 3, "medium": 2, "low": 1}[job.priority]
     await db.jobs.insert_one(doc)
     return job
 
@@ -82,6 +83,7 @@ async def retry_job(job_id: str, current_user: dict = Depends(get_current_user))
             "completed_at": None,
             "error_message": None,
             "result": None,
+            "priority_rank": {"high": 3, "medium": 2, "low": 1}.get(job.get("priority", "medium"), 2),
         }},
     )
     if current_user["role"] == "admin" and job["owner_id"] != current_user["id"]:

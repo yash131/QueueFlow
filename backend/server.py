@@ -29,10 +29,13 @@ logger = logging.getLogger("queueflow")
 
 app = FastAPI(title="QueueFlow API", version="1.0.0")
 
+_cors = os.environ.get("CORS_ORIGINS", "*").split(",")
+_allow_wildcard = "*" in _cors
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.environ.get("CORS_ORIGINS", "*").split(","),
-    allow_credentials=True,
+    allow_origins=_cors,
+    # Wildcard + credentials is rejected by browsers; toggle credentials only when origins are explicit
+    allow_credentials=not _allow_wildcard,
     allow_methods=["*"],
     allow_headers=["*"],
 )
